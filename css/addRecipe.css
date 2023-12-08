@@ -1,0 +1,71 @@
+.labelName {
+    font-size: 24px;
+    width: 260px;
+}
+
+.capitalize {
+    text-transform: capitalize;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+
+.flexColumn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.flexColumn2 {
+    width: 79%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#categories {
+    max-width: 79%;
+}
+
+textarea, input {
+    font-size: 16px;
+    width: 60%;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    resize: none;
+}
+
+textarea:focus, input:focus {
+    outline-color: #e33778;
+}
+
+.recipeFlex {
+    margin-top: 50px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.recipeFlex h1 {
+    padding-top: 10px;
+}
+
+.recipeFlex button {
+    font-size: 16px;
+    padding: 0 30px;
+    height: 40px;
+}
+
+.hoverBlack {
+    border: 2px solid #fefefe;
+    transition: color 0.2s ease-in-out, border 0.2s ease-in-out;
+}
+
+.hoverBlack:hover {
+    cursor: pointer;
+    border-color: black;
+    color: black;
+}
