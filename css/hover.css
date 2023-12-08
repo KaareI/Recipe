@@ -1,0 +1,21 @@
+.hoverRed {
+    border: 2px solid #fefefe;
+    transition: color 0.2s ease-in-out, border 0.2s ease-in-out;
+}
+
+.hoverRed:hover {
+    cursor: pointer;
+    border-color: #e33778;
+    color: #e33778;
+}
+
+.hoverBlack {
+    border: 2px solid #fefefe;
+    transition: color 0.2s ease-in-out, border 0.2s ease-in-out;
+}
+
+.hoverBlack:hover {
+    cursor: pointer;
+    border-color: black;
+    color: black;
+}

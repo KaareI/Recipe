@@ -1,3 +1,12 @@
+header{
+    display: flex;
+    justify-content: flex-start;
+}
+
+header button{
+    height: auto;
+}
+
 .labelName {
     font-size: 24px;
     width: 260px;
@@ -59,13 +68,13 @@ textarea:focus, input:focus {
     height: 40px;
 }
 
-.hoverBlack {
-    border: 2px solid #fefefe;
-    transition: color 0.2s ease-in-out, border 0.2s ease-in-out;
+.addRecipe{
+    padding: 0 50px;
+    font-size: 20px;
+    border-color: #e33778;
+    color: #e33778;
 }
 
-.hoverBlack:hover {
-    cursor: pointer;
-    border-color: black;
-    color: black;
+h1{
+    user-select: none;
 }
