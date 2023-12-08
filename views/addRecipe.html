@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="../css/index.css">
     <link rel="stylesheet" type="text/css" href="../css/addRecipe.css">
+    <link rel="stylesheet" type="text/css" href="../css/hover.css">
 
     <title>Retseptid</title>
 
@@ -13,15 +14,13 @@
 
 <body>
 
-<header>
-
-
-</header>
-
 <!-- Webpage content -->
 <section id="pageContent">
 
-    <h1 class="font" style="text-align: center; font-size: 48px; color: #e33778">LISA RETSEPT</h1>
+    <header>
+        <button class="bordering hoverRed font fontWeight"><img src="../assets/backColored.png" width="50%"></button>
+        <h1 class="font" style="text-align: center; font-size: 48px; color: #e33778; width: 85%">UUS RETSEPT</h1>
+    </header>
 
     <!-- Recipe Name -->
     <section class="recipeFlex">
@@ -39,7 +38,7 @@
 
     <!-- Recipe preparing time -->
     <section class="recipeFlex">
-        <h1 class="font labelName">Tegemise aeg(min):</h1>
+        <h1 class="font labelName">Tegemise aeg (min):</h1>
         <input type="number" id="recipeTime" class="font hoverBlack" style="width: 8%" name="numberInput" min="0"
                max="999" step="1"
                placeholder="120">
@@ -69,7 +68,8 @@
                 <h1 class="font" style="margin: 10px 0; font-size: 18px">VÕI</h1>
                 <div style="display: flex; align-items: center">
                     <h2 class="font labelName" style="font-size: 24px">Lisa uus kategooria:</h2>
-                    <input type="text" id="addCategory" maxlength="50" style="width: 40%" class="font hoverBlack uppercase"
+                    <input type="text" id="addCategory" maxlength="50" style="width: 40%"
+                           class="font hoverBlack uppercase"
                            placeholder="KOOGID">
                 </div>
 
@@ -99,13 +99,14 @@ Maitsesta soola ja värskelt jahvatatud musta pipraga. Serveeri kohe koos rohkel
 
     <!-- Recipe Picture -->
     <section class="recipeFlex">
-        <h1 class="font labelName">Lisa Pilt:</h1>
-        <input type="file" id="recipeImage" style="width: 20%; color: #727272; background-color: #fefefe" class="font hoverBlack" accept=".png, image/png">
+        <h1 class="font labelName">Lisa pilt (PNG):</h1>
+        <input type="file" id="recipeImage" style="width: 20%; color: #727272; background-color: #fefefe"
+               class="font hoverBlack" accept=".png, image/png">
     </section>
 
     <!-- Submit category -->
     <div style="display: flex; justify-content: center; margin-top: 50px">
-        <button class="bordering hoverBlack font fontWeight" style="padding: 0 50px; font-size: 20px; border-color: #e33778; color: #e33778">Lisa</button>
+        <button class="bordering hoverBlack font fontWeight addRecipe">Lisa</button>
     </div>
 
 </section>

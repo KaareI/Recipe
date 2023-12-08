@@ -17,17 +17,6 @@ body {
     font-weight: 700;
 }
 
-.hoverRed {
-    border: 1px solid #fefefe;
-    transition: color 0.2s ease-in-out, border 0.2s ease-in-out;
-}
-
-.hoverRed:hover {
-    cursor: pointer;
-    border-color: #e33778;
-    color: #e33778;
-}
-
 #banner {
     width: 100%;
     height: 300px;
