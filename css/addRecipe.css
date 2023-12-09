@@ -78,3 +78,13 @@ textarea:focus, input:focus {
 h1{
     user-select: none;
 }
+
+.imgLabel{
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20%;
+    color: #727272;
+    background-color: #fefefe;
+}
