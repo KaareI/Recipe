@@ -99,14 +99,16 @@ Maitsesta soola ja värskelt jahvatatud musta pipraga. Serveeri kohe koos rohkel
 
     <!-- Recipe Picture -->
     <section class="recipeFlex">
-        <h1 class="font labelName">Lisa pilt (PNG):</h1>
-        <input type="file" id="recipeImage" style="width: 20%; color: #727272; background-color: #fefefe"
-               class="font hoverBlack" accept=".png, image/png">
+        <h1 class="font labelName">Lisa pilt:</h1>
+        <label for="recipeImage" class="font hoverBlack imgLabel"">
+            Select a PNG Image:
+        </label>
+        <input type="file" id="recipeImage" style="display: none" accept=".png, image/png">
     </section>
 
     <!-- Submit category -->
     <div style="display: flex; justify-content: center; margin-top: 50px">
-        <button class="bordering hoverBlack font fontWeight addRecipe">Lisa</button>
+        <button class="bordering hoverRed font fontWeight addRecipe">Lisa</button>
     </div>
 
 </section>
