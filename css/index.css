@@ -142,12 +142,12 @@ select {
     font-size: 16px;
 }
 
-#recipeCount{
+#recipeCount {
     margin-top: 20px;
     margin-bottom: 40px;
 }
 
-#recipes{
+#recipes {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -184,6 +184,6 @@ select {
     transition: color 0.3s ease;
 }
 
-.recipe h2:hover{
+.recipe h2:hover {
     color: #bebebe;
 }
