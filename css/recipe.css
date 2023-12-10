@@ -1,4 +1,4 @@
-.navigation{
+.navigation {
     padding: 20px;
     border-radius: 20px 20px 0 0;
     background-color: #ecebf1;
@@ -9,21 +9,21 @@
     align-items: center;
 }
 
-.navButton{
+.navButton {
     margin: 0 10px;
     padding: 5px 15px;
 }
 
-.navButton img{
+.navButton img {
     height: 36px;
 }
 
-#pageContent{
+#pageContent {
     display: flex;
     flex-direction: column;
 }
 
-.mainHeading{
+.mainHeading {
     background: linear-gradient(to right, #e33778 0%, #ecebf1 50%, #e33778 100%);
     text-align: center;
     font-size: 48px;
@@ -32,18 +32,18 @@
 
 }
 
-.half1 h1, .half2 h1{
+.half1 h1, .half2 h1 {
     font-size: 38px;
 }
 
-.boxPadding{
+.boxPadding {
     box-shadow: 0 4px 5px 5px rgba(0, 0, 0, 0.25);
     padding: 50px;
     background-color: #fefefe;
     border-radius: 20px;
 }
 
-.half1{
+.half1 {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -52,31 +52,61 @@
 }
 
 
-.foodPic{
-    width: 100%;
+.foodPic {
+    padding: 20px 60px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
     overflow: hidden;
     box-shadow: 0 4px 5px 5px rgba(0, 0, 0, 0.25);
-    border-radius: 20px;
     height: 200px;
-    margin-bottom: 50px;
+    margin-top: 50px;
+    border-radius: 20px;
 }
 
-.foodPic img{
+.foodPic img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 20px;
 }
 
-.ingredients{
+.ingredients {
     width: 100%;
 }
 
-.ingredients:hover, .noPointer:hover{
-    cursor: default !important;
+.ingredients h1 {
+    margin-bottom: 20px;
 }
 
-.ingredients h1{
-    margin-bottom: 20px;
+.noPointer:hover, .ingredients:hover {
+    cursor: default !important;
+    z-index: 102 !important;
+}
+
+.ingredients,
+.noPointer {
+    position: relative;
+}
+
+.ingredients:hover + .overlay,
+.noPointer:hover + .overlay {
+    visibility: visible;
+    opacity: 1;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    visibility: visible;
+    z-index: 100;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
 }
 
 li {
@@ -84,30 +114,31 @@ li {
     margin-bottom: 8px;
 }
 
-.half2{
+.half2 {
     padding-left: 50px;
     width: 65%;
 }
 
-.timer{
+.timer {
     display: flex;
     margin-top: 8px;
     margin-bottom: 20px;
 }
 
-.timer img{
+.timer img {
     height: 20px;
     margin-right: 10px;
     margin-left: 5px;
 }
 
-.timer h3{
+.timer h3 {
     color: #525252;
     font-weight: 500;
 }
 
-.half2 p{
+.half2 p {
     font-size: 18px;
     line-height: 1.7;
 }
+
 
