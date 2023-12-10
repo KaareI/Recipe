@@ -1,0 +1,113 @@
+.navigation{
+    padding: 20px;
+    border-radius: 20px 20px 0 0;
+    background-color: #ecebf1;
+    margin: 0 auto;
+    width: min-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.navButton{
+    margin: 0 10px;
+    padding: 5px 15px;
+}
+
+.navButton img{
+    height: 36px;
+}
+
+#pageContent{
+    display: flex;
+    flex-direction: column;
+}
+
+.mainHeading{
+    background: linear-gradient(to right, #e33778 0%, #ecebf1 50%, #e33778 100%);
+    text-align: center;
+    font-size: 48px;
+    color: #e33778;
+    margin-bottom: 50px;
+
+}
+
+.half1 h1, .half2 h1{
+    font-size: 38px;
+}
+
+.boxPadding{
+    box-shadow: 0 4px 5px 5px rgba(0, 0, 0, 0.25);
+    padding: 50px;
+    background-color: #fefefe;
+    border-radius: 20px;
+}
+
+.half1{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-right: 50px;
+    width: 35%;
+}
+
+
+.foodPic{
+    width: 100%;
+    overflow: hidden;
+    box-shadow: 0 4px 5px 5px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    height: 200px;
+    margin-bottom: 50px;
+}
+
+.foodPic img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.ingredients{
+    width: 100%;
+}
+
+.ingredients:hover, .noPointer:hover{
+    cursor: default !important;
+}
+
+.ingredients h1{
+    margin-bottom: 20px;
+}
+
+li {
+    font-size: 18px;
+    margin-bottom: 8px;
+}
+
+.half2{
+    padding-left: 50px;
+    width: 65%;
+}
+
+.timer{
+    display: flex;
+    margin-top: 8px;
+    margin-bottom: 20px;
+}
+
+.timer img{
+    height: 20px;
+    margin-right: 10px;
+    margin-left: 5px;
+}
+
+.timer h3{
+    color: #525252;
+    font-weight: 500;
+}
+
+.half2 p{
+    font-size: 18px;
+    line-height: 1.7;
+}
+
