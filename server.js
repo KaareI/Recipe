@@ -1,8 +1,9 @@
 const express = require('express');
 const fs = require('fs');
 const ejs = require('ejs');
+const Sequelize = require('sequelize');
 const path = require('path')
-const { sequelize, Recipe } = require('./models');
+const {sequelize, Recipe} = require('./models');
 const app = express();
 const PORT = 5501;
 
@@ -17,16 +18,28 @@ app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
 
-app.get('/recipes', async (req, res) => {
+// Serve the homepage
+app.get('/', async (req, res) => {
+    const indexPath = './views/index.ejs';
+
     try {
-        // Retrieve all recipes
+
         const recipes = await Recipe.findAll();
 
-        // Send the recipes as JSON response
-        res.json(recipes);
+        // Read and modify the 'index.ejs' file
+        fs.readFile(indexPath, 'utf8', (err, data) => {
+            if (err) {
+                console.error('Error reading index.ejs:', err);
+                return res.status(500).json({error: 'Server error'});
+            }
+
+            data = ejs.render(data, {recipes});
+
+            res.send(data);
+        });
     } catch (error) {
-        console.error('Error fetching recipes:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        console.error('Error fetching data:', error);
+        res.status(500).json({error: 'Error fetching data'});
     }
 });
 
@@ -36,6 +49,13 @@ app.get('/addRecipe', async (req, res) => {
 
     try {
 
+        const uniqueCategories = await Recipe.findAll({
+            attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('Category')), 'Category']],
+            raw: true,
+        });
+
+        console.log(uniqueCategories);
+
         // Read and modify the 'addRecipe.ejs' file
         fs.readFile(indexPath, 'utf8', (err, data) => {
             if (err) {
@@ -43,6 +63,8 @@ app.get('/addRecipe', async (req, res) => {
                 return res.status(500).json({error: 'Server error'});
             }
 
+            data = ejs.render(data, {uniqueCategories});
+
             res.send(data);
         });
     } catch (error) {
@@ -51,26 +73,36 @@ app.get('/addRecipe', async (req, res) => {
     }
 });
 
-// Serve the homepage
-app.get('/', async (req, res) => {
-    const indexPath = './views/index.ejs';
+// Serve recipe page
+app.get('/recipe/:id', async (req, res) => {
+    const indexPath = './views/recipe.ejs';
+    const recipeId = req.params.id;
 
     try {
+        // Find the recipe by ID
+        const recipe = await Recipe.findByPk(recipeId);
 
-        // Read and modify the 'index.ejs' file
+        if (!recipe) {
+            return res.status(404).json({ error: 'Recipe not found' });
+        }
+
+        // Read and modify the 'recipe.ejs' file
         fs.readFile(indexPath, 'utf8', (err, data) => {
             if (err) {
-                console.error('Error reading index.ejs:', err);
-                return res.status(500).json({error: 'Server error'});
+                console.error('Error reading recipe.ejs:', err);
+                return res.status(500).json({ error: 'Server error' });
             }
+
+            data = ejs.render(data, { recipe });
 
             res.send(data);
         });
     } catch (error) {
         console.error('Error fetching data:', error);
-        res.status(500).json({error: 'Error fetching data'});
+        res.status(500).json({ error: 'Error fetching data' });
     }
 });
+
 
 // Handle category selection
 app.get('/Category:category', async (req, res) => {
@@ -191,83 +223,3 @@ app.get('/search', (req, res) => {
     }
 });
 
-// Serve tool page
-app.get('/Tool/:id', async (req, res) => {
-    try {
-        const toolId = req.params.id;
-
-        const toolResponse = await fetch(`http://localhost:5501/AIData/${toolId}`);
-        const toolData = await toolResponse.json();
-
-        // Fetch all tools
-        const allToolsResponse = await fetch('http://localhost:5501/AIData/');
-        const allToolsData = await allToolsResponse.json();
-
-        // Filter related tools based on category (excluding the clicked tool itself)
-        const relatedTools = allToolsData.filter(tool => tool.Category.includes(toolData.Category) && tool.ToolID !== toolData.ToolID).slice(0, 3);
-
-
-        const toolPath = './html/tool.ejs';
-
-        fs.readFile(toolPath, 'utf8', (err, data) => {
-            if (err) {
-                console.error('Error reading tool.ejs:', err);
-                return res.status(500).json({error: 'Server error'});
-            }
-
-            // Replace buttons based on authentication status
-            if (req.session && req.session.isAuthenticated) {
-
-                // Only add logoutButton and addTool button
-                data = data.replace(
-                    '<div class="navButtons">',
-                    '\
-                    <div class="navButtons">\n\
-                        <a href="">\n\
-                            <img id="addTool" class="hoverable" src="../assets/add.png" alt="PLUS ICON" width="30" height="30">\n\
-                        </a>\n\
-                        <a href="/">\n\
-                            <img id="logoutButton" class="hoverable" src="../assets/Logout.png" alt="LOGOUT" width="30" height="30">\n\
-                        </a>\
-                        '
-                );
-
-                // Add edit and delete buttons
-                data = data.replace(
-                    '<div class="action">',
-                    '<div class="action">\n\
-                        <img src="../assets/Edit.png" class="hoverable" id="editTool" alt="EDIT" width="35" height="35">\n\
-                        <img src="../assets/Delete.png" class="hoverable" id="deleteTool" alt="DELETE" width="35" height="35">'
-                );
-
-            } else {
-
-                // Only add loginButton
-                data = data.replace(
-                    '<div class="navButtons">',
-                    '\
-                    <div class="navButtons">\n\
-                        <a href="AILogin">\n\
-                            <img id="loginButton" class="hoverable" src="../assets/user-logo.png" alt="USER LOGO" width="30" height="30">\n\
-                        </a>\
-                        '
-                );
-
-                // Remove edit and delete buttons
-                data = data.replace(
-                    '<div class="action">',
-                    ''
-                );
-
-            }
-
-            // Replace placeholders in the EJS template with dynamic data for the specific tool
-            data = ejs.render(data, {toolData, relatedTools});
-
-            res.send(data);
-        });
-    } catch (error) {
-        console.error('Error fetching tool data:', error);
-        res.status(500).json({error: 'Error fetching tool data'});
-    }
-});

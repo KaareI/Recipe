@@ -26,9 +26,9 @@ module.exports = (sequelize) => {
             type: DataTypes.STRING(500),
             allowNull: false,
         },
-        RecipeIMG: {
-            type: DataTypes.BLOB,
-            allowNull: true,
+        ImageURL: {
+            type: DataTypes.STRING(500),
+            allowNull: false,
         },
     }, {
         timestamps: false,
