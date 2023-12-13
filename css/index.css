@@ -119,6 +119,12 @@ body {
     justify-content: center;
     align-items: center;
     border-radius: 25px;
+    background-color: #fefefe;
+}
+
+.active{
+    color: #e33778 !important;
+    border-color: #e33778 !important;
 }
 
 .bordering {
