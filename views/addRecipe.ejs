@@ -18,7 +18,7 @@
 <section id="pageContent">
 
     <header>
-        <button class="bordering hoverRed font fontWeight"><img src="../assets/backColored.png" width="50%"></button>
+        <button class="bordering hoverRed font fontWeight" onclick="navigateToIndex()"><img src="../assets/backColored.png" width="50%"></button>
         <h1 class="font" style="text-align: center; font-size: 48px; color: #e33778; width: 85%">UUS RETSEPT</h1>
     </header>
 
@@ -61,14 +61,13 @@
 
             <!-- Choosable categories -->
             <div id="categories" class="bordering">
-                <button class="filter hoverBlack font fontWeight" onclick="changeState(this)">SALATID</button>
-                <button class="filter hoverBlack font fontWeight" onclick="changeState(this)">SUPID</button>
-                <button class="filter hoverBlack font fontWeight" onclick="changeState(this)">PASTAD</button>
-                <button class="filter hoverBlack font fontWeight" onclick="changeState(this)">KOOGID</button>
-                <button class="filter hoverBlack font fontWeight" onclick="changeState(this)">JOOGID</button>
-                <button class="filter hoverBlack font fontWeight" onclick="changeState(this)">KÜPSETISED</button>
-                <button class="filter hoverBlack font fontWeight" onclick="changeState(this)">PRAED</button>
-                <button class="filter hoverBlack font fontWeight" onclick="changeState(this)">EELROAD</button>
+
+                <% uniqueCategories.forEach(category => { %>
+                    <button class="filter hoverBlack font fontWeight" onclick="changeState(this)">
+                        <%= category.Category %>
+                    </button>
+                <% }); %>
+
             </div>
 
             <!-- Add new category -->
@@ -135,6 +134,7 @@ Maitsesta soola ja värskelt jahvatatud musta pipraga. Serveeri kohe koos rohkel
 
 </section>
 
+<script src="../js/redirect.js"></script>
 <script src="../js/addRecipe.js"></script>
 <script src="../js/changeColor.js"></script>
 

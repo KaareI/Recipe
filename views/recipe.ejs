@@ -18,12 +18,19 @@
 <header>
 
     <div class="navigation">
-        <button class="bordering hoverRed font fontWeight navButton"><img src="../assets/backColored.png"
-                                                                          class="navButton"></button>
-        <button class="bordering hoverRed font fontWeight navButton"><img src="../assets/editColored.png"
-                                                                          class="navButton"></button>
-        <button class="bordering hoverRed font fontWeight navButton"><img src="../assets/deleteColored.png"
-                                                                          class="navButton"></button>
+
+        <button class="bordering hoverRed font fontWeight navButton" onclick="navigateToIndex()">
+            <img src="../assets/backColored.png" class="navButton">
+        </button>
+
+        <button class="bordering hoverRed font fontWeight navButton">
+            <img src="../assets/editColored.png" class="navButton">
+        </button>
+
+        <button class="bordering hoverRed font fontWeight navButton">
+            <img src="../assets/deleteColored.png" class="navButton">
+        </button>
+
     </div>
 
 </header>
@@ -41,21 +48,18 @@
 
                 <h1>Koostisosad</h1>
                 <ul>
-                    <li>1 spl oliiviõli</li>
-                    <li>225g peekonit</li>
-                    <li>1-2 küüslauguküünt</li>
-                    <li>3-4 muna</li>
-                    <li>100g riivjuustu</li>
-                    <li>450g spagette</li>
-                    <li>sool</li>
-                    <li>pipar</li>
+                    <% const ingredientsArray = recipe.Ingredients.split(', '); %>
+                    <% ingredientsArray.forEach(ingredient => { %>
+                        <% const cleanedIngredient = ingredient.trim(); %>
+                        <li><%= cleanedIngredient %></li>
+                    <% }); %>
                 </ul>
 
             </div>
             <div class="overlay"></div>
             <div class="foodPic">
 
-                <img src="https://drive.google.com/uc?id=1PmXCCX-fE1CkpUw6fENh-tTUiLvUPk9E"></button>
+                <img src="<%= recipe.ImageURL %>" alt="<%= recipe.Name %>">
 
             </div>
 
@@ -64,20 +68,29 @@
         <div class="half2 font">
 
             <div class="boxPadding hoverBlack noPointer">
-
-                <h1>Pasta carbonara</h1>
+                <h1><%= recipe.Name %></h1>
                 <div class="timer">
                     <img src="../assets/time.png">
-                    <h3>45min</h3>
+                    <h3><%= recipe.Time %>min</h3>
                 </div>
-                <p>Sega 3-4 munakollast koos 100 g riivjuustuga. Kurna keedetud pasta, lisa see pannile peekoni ja
-                    küüslauguga ning sega kiiresti munaseguga.<br><br>
-
-                    Maitsesta soola ja värskelt jahvatatud musta pipraga. Serveeri kohe koos rohkelt riivitud juustuga.
-                    Nüüd
-                    saad nautida maitsvat pasta carbonarat!</p>
-
+                <p><%= recipe.Instructions %></p>
             </div>
+
+            <!--            <div class="boxPadding hoverBlack noPointer">
+
+                            <h1>Pasta carbonara</h1>
+                            <div class="timer">
+                                <img src="../assets/time.png">
+                                <h3>45min</h3>
+                            </div>
+                            <p>Sega 3-4 munakollast koos 100 g riivjuustuga. Kurna keedetud pasta, lisa see pannile peekoni ja
+                                küüslauguga ning sega kiiresti munaseguga.
+
+                                Maitsesta soola ja värskelt jahvatatud musta pipraga. Serveeri kohe koos rohkelt riivitud juustuga.
+                                Nüüd
+                                saad nautida maitsvat pasta carbonarat!</p>
+
+                        </div>-->
             <div class="overlay"></div>
 
         </div>
@@ -85,6 +98,8 @@
     </section>
 
 </section>
+
+<script src="../js/redirect.js"></script>
 
 </body>
 

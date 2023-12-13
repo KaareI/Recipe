@@ -47,18 +47,20 @@
 
         <!-- Categories -->
         <div id="categories" class="bordering">
-            <div class="filter hoverBlack font fontWeight" onclick="changeColor(this)">SALATID</div>
-            <div class="filter hoverBlack font fontWeight" onclick="changeColor(this)">SUPID</div>
-            <div class="filter hoverBlack font fontWeight" onclick="changeColor(this)">PASTAD</div>
-            <div class="filter hoverBlack font fontWeight" onclick="changeColor(this)">KOOGID</div>
-            <div class="filter hoverBlack font fontWeight" onclick="changeColor(this)">JOOGID</div>
-            <div class="filter hoverBlack font fontWeight" onclick="changeColor(this)">KÜPSETISED</div>
-            <div class="filter hoverBlack font fontWeight" onclick="changeColor(this)">PRAED</div>
-            <div class="filter hoverBlack font fontWeight" onclick="changeColor(this)">EELROAD</div>
+
+            <!-- Find unique categories -->
+            <% const uniqueCategories = [...new Set(recipes.map(recipe => recipe.Category))]; %>
+
+            <!-- Display all unique categories -->
+            <% uniqueCategories.forEach(category => { %>
+                <button class="filter hoverBlack font fontWeight" onclick="changeColor(this)">
+                    <%= category %>
+                </button>
+            <% }); %>
         </div>
 
         <!-- Add new recipe -->
-        <button id="addRecipe" class="bordering hoverRed font fontWeight">LISA RETSEPT</button>
+        <button id="addRecipe" class="bordering hoverRed font fontWeight" onclick="navigateToAddRecipe()">LISA RETSEPT</button>
 
         <!-- Recipe type -->
         <select name="Tüüp" id="type" class="bordering hoverBlack font fontWeight">
@@ -76,19 +78,19 @@
     <!-- Displayed recipes -->
     <section id="recipes">
 
-        <div class="recipe hoverBlack">
-
-            <h2 class="font">Pasta carbonara</h2>
-            <img src="https://drive.google.com/uc?id=1PmXCCX-fE1CkpUw6fENh-tTUiLvUPk9E" alt="PASTA">
-
-        </div>
-
+        <% recipes.forEach(recipe => { %>
+            <div class="recipe hoverBlack" id="<%= recipe.id %>">
+                <h2 class="font"><%= recipe.Name %></h2>
+                <img src="<%= recipe.ImageURL %>" alt="<%= recipe.Name %>">
+            </div>
+        <% }); %>
 
     </section>
 
 </section>
 
 <script src="../js/changeColor.js"></script>
+<script src="../js/redirect.js"></script>
 
 </body>
 
