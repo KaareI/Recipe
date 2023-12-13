@@ -57,7 +57,6 @@ app.get('/', async (req, res) => {
 
     try {
 
-
         // Read and modify the 'index.ejs' file
         fs.readFile(indexPath, 'utf8', (err, data) => {
             if (err) {
@@ -65,17 +64,11 @@ app.get('/', async (req, res) => {
                 return res.status(500).json({error: 'Server error'});
             }
 
-            // Use EJS to render the HTML and pass both all and filtered categories to the template
-            const renderedHtml = ejs.render(data, {
-                aiData: aiData,
-                allCategories: Array.from(allCategories),
-            });
-
-            res.send(renderedHtml);
+            res.send(data);
         });
     } catch (error) {
-        console.error('Error fetching AI data:', error);
-        res.status(500).json({error: 'Error fetching AI data'});
+        console.error('Error fetching data:', error);
+        res.status(500).json({error: 'Error fetching data'});
     }
 });
 

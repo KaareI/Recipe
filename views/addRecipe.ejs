@@ -25,21 +25,30 @@
     <!-- Recipe Name -->
     <section class="recipeFlex">
         <h1 class="font labelName">Retsepti nimi:</h1>
-        <input id="recipeName" class="font hoverBlack capitalize" style="width: 42%" maxlength="50"
-               placeholder="Pasta carbonara" rows="1">
+        <input id="recipeName"
+               class="font hoverBlack"
+               style="width: 42%" maxlength="50"
+               placeholder="Pasta carbonara"
+               rows="1">
     </section>
 
     <!-- Recipe type -->
     <section class="recipeFlex" id="type">
         <h1 class="font labelName">Retsepti tüüp:</h1>
         <button class="bordering hoverBlack font fontWeight" id="soolane" onclick="changeColor(this)">SOOLANE</button>
-        <button class="bordering hoverBlack font fontWeight" id="magus" onclick="changeColor(this)" style="margin-left: 50px;">MAGUS</button>
+        <button class="bordering hoverBlack font fontWeight" id="magus" onclick="changeColor(this)"
+                style="margin-left: 50px;">MAGUS
+        </button>
     </section>
 
     <!-- Recipe preparing time -->
     <section class="recipeFlex">
         <h1 class="font labelName">Tegemise aeg (min):</h1>
-        <input type="number" id="recipeTime" class="font hoverBlack" style="width: 8%" name="numberInput" min="0"
+        <input type="number"
+               id="recipeTime"
+               class="font hoverBlack"
+               style="width: 8%"
+               name="numberInput" min="0"
                max="999" step="1"
                placeholder="120">
     </section>
@@ -85,15 +94,20 @@
     <!-- Recipe Ingredients -->
     <section class="recipeFlex">
         <h1 class="font labelName">Retsepti koostisosad:</h1>
-        <textarea id="recipeIngredients" maxlength="500" class="font hoverBlack"
+        <textarea id="recipeIngredients"
+                  maxlength="500"
+                  class="font hoverBlack"
                   placeholder="1 spl oliiviõli, 225g peekonit, 1-2 küüslauguküünt, 3-4 muna, 100g riivjuustu, 450g spagette, sool, pipar"
-                  class="font" rows="2"></textarea>
+                  class="font"
+                  rows="2"></textarea>
     </section>
 
     <!-- Recipe Instructions -->
     <section class="recipeFlex">
         <h1 class="font labelName">Retsepti juhend:</h1>
-        <textarea id="recipeInstructions" maxlength="1000" class="font hoverBlack capitalize"
+        <textarea id="recipeInstructions"
+                  maxlength="1000"
+                  class="font hoverBlack"
                   placeholder="Sega 3-4 munakollast koos 100 g riivjuustuga. Kurna keedetud pasta, lisa see pannile peekoni ja küüslauguga ning sega kiiresti munaseguga.
 
 Maitsesta soola ja värskelt jahvatatud musta pipraga. Serveeri kohe koos rohkelt riivitud juustuga. Nüüd saad nautida maitsvat pasta carbonarat!"
@@ -103,10 +117,15 @@ Maitsesta soola ja värskelt jahvatatud musta pipraga. Serveeri kohe koos rohkel
     <!-- Recipe Picture -->
     <section class="recipeFlex">
         <h1 class="font labelName">Lisa pilt:</h1>
-        <label for="recipeImage" class="font hoverBlack imgLabel"">
-            Select a PNG Image:
-        </label>
-        <input type="file" id="recipeImage" style="display: none" accept=".png, image/png">
+        <input type="text"
+               maxlength="500"
+               style="width: 60%;"
+               class="font hoverBlack"
+               id="recipeImage"
+               style="display: none"
+               placeholder="https://drive.google.com/file/d/1PmXCCX-fE1CkpUw6fENh-tTUiLvUPk9E/view?usp=sharing"
+               oninput="changeState(null)"
+        >
     </section>
 
     <!-- Submit category -->

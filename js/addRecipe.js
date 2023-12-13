@@ -63,9 +63,11 @@ function validateSelection() {
     const instructions = document.getElementById('recipeInstructions');
     missingInformation.push(validateInput(instructions));
 
-    /* Validate recipe's image */
+    /* Validate recipe's image url */
+    const imageURL = document.getElementById('recipeImage');
+    missingInformation.push(validateInput(imageURL));
 
-/*    console.log(missingInformation)*/
+    /*    console.log(missingInformation)*/
     // Check if there is any 'true' in the array (errors)
     if (missingInformation.includes(true)) {
         return true
@@ -75,13 +77,54 @@ function validateSelection() {
 
 }
 
+/* Extract the img id from the drive link */
+function extractImageId(driveLink) {
+    const regex = /\/d\/(.*?)\/view/;
+    const match = driveLink.match(regex);
+
+    if (match && match[1]) {
+        return match[1];
+    } else {
+        console.error("Invalid Google Drive link");
+        return null;
+    }
+}
+
+/* Construct the new URL */
+function constructImageUrl(imageId) {
+    return `https://drive.google.com/uc?id=${imageId}`;
+}
+
 /* Handle adding recipe */
 const addRecipe = () => {
 
     /* Validate all fields */
-    const info = validateSelection()
+    const error = validateSelection()
+    /*    console.log(error)*/
 
+    if (!error) {
 
+        const name = document.getElementById('recipeName');
+        /*    console.log("Name: ", name.value)*/
+
+        const time = document.getElementById('recipeTime');
+        /*    console.log("Time: ",time.value)*/
+
+        const ingredients = document.getElementById('recipeIngredients');
+        /*    console.log("ingredients: ",ingredients.value)*/
+
+        const instructions = document.getElementById('recipeInstructions');
+        /*    console.log("instructions: ",instructions.value)*/
+
+        let imageURL = document.getElementById('recipeImage');
+        imageURL = imageURL.value.replace(/\s/g, '');
+        const imageId = extractImageId(imageURL);
+
+        if (imageId) {
+            const imageUrl = constructImageUrl(imageId);
+            /*        console.log("Constructed Image URL:", imageUrl);*/
+        }
+    }
 }
 
 /* Handle Category selection logic */
