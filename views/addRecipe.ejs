@@ -57,13 +57,13 @@
     <section class="recipeFlex" id="category">
         <h1 class="font labelName">Kategooria:</h1>
 
-        <div class="flexColumn">
+        <div id="flexColumn">
 
             <!-- Choosable categories -->
             <div id="categories" class="bordering">
 
                 <% uniqueCategories.forEach(category => { %>
-                    <button class="filter hoverBlack font fontWeight" onclick="changeState(this)">
+                    <button class="filter hoverBlack font fontWeight" onclick="changeState(this)" value="<%= category.Category %>">
                         <%= category.Category %>
                     </button>
                 <% }); %>

@@ -95,20 +95,59 @@ function constructImageUrl(imageId) {
     return `https://drive.google.com/uc?id=${imageId}`;
 }
 
+/* Get selected or made category */
+function getCategory() {
+    const categoriesDiv = document.getElementById('categories');
+    const addCategoryInput = document.getElementById('addCategory');
+    const flexColumn3Div = document.getElementById('flexColumn3');
+
+    if (categoriesDiv.classList.contains('disabled')) {
+        // Categories are disabled, return the value of addCategory input
+        return addCategoryInput.value.toUpperCase();
+    } else if (flexColumn3Div.classList.contains('disabled')) {
+        // flexColumn3 is disabled, find the active button in categories and return its value
+        const activeButton = categoriesDiv.querySelector('.active');
+        return activeButton ? activeButton.value : null;
+    }
+
+    // Return null if neither condition is met
+    return null;
+}
+
+/* Get selected dish type */
+function getActiveButtonType() {
+    const typeSection = document.getElementById('type');
+    const activeButton = typeSection.querySelector('.active');
+
+    // Check if an active button exists
+    if (activeButton) {
+        return activeButton.innerText.trim(); // Return the trimmed text content
+    } else {
+        return null; // Return null if no active button is found
+    }
+}
+
 /* Handle adding recipe */
 const addRecipe = () => {
 
     /* Validate all fields */
     const error = validateSelection()
-    /*    console.log(error)*/
+    /*        console.log(error)*/
+
 
     if (!error) {
 
         const name = document.getElementById('recipeName');
         /*    console.log("Name: ", name.value)*/
 
+        const type = getActiveButtonType();
+        /*        console.log("type: ", type)*/
+
         const time = document.getElementById('recipeTime');
-        /*    console.log("Time: ",time.value)*/
+        /*    console.log("time: ",time.value)*/
+
+        const category = getCategory();
+        /*        console.log("category: ",category);*/
 
         const ingredients = document.getElementById('recipeIngredients');
         /*    console.log("ingredients: ",ingredients.value)*/
@@ -121,7 +160,7 @@ const addRecipe = () => {
         const imageId = extractImageId(imageURL);
 
         if (imageId) {
-            const imageUrl = constructImageUrl(imageId);
+            imageURL = constructImageUrl(imageId);
             /*        console.log("Constructed Image URL:", imageUrl);*/
         }
     }
