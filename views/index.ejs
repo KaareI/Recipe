@@ -53,7 +53,7 @@
 
             <!-- Display all unique categories -->
             <% uniqueCategories.forEach(category => { %>
-                <button class="filter hoverBlack font fontWeight" onclick="changeColor(this)">
+                <button class="filter hoverBlack font fontWeight" onclick="changeColor(this)" value="<%= category %>">
                     <%= category %>
                 </button>
             <% }); %>
@@ -79,7 +79,7 @@
     <section id="recipes">
 
         <% recipes.forEach(recipe => { %>
-            <div class="recipe hoverBlack" id="<%= recipe.id %>">
+            <div class="recipe hoverBlack" id="<%= recipe.id %>" onclick="navigateToRecipe(<%= recipe.id %>)">
                 <h2 class="font"><%= recipe.Name %></h2>
                 <img src="<%= recipe.ImageURL %>" alt="<%= recipe.Name %>">
             </div>

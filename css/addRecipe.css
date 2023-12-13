@@ -16,7 +16,7 @@ header button{
     text-transform: uppercase;
 }
 
-.flexColumn {
+#flexColumn {
     width: 70%;
     display: flex;
     flex-direction: column;
