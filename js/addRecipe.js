@@ -236,28 +236,28 @@ const editRecipe = async (ID) => {
     if (!error) {
 
         const name = document.getElementById('recipeName');
-        console.log("Name: ", name.value)
-        console.log("Name: ", typeof (name.value))
+        /*        console.log("Name: ", name.value)
+                console.log("Name: ", typeof (name.value))*/
 
         const type = getActiveButtonType();
-        console.log("type: ", type)
-        console.log("type: ", typeof (type))
+        /*        console.log("type: ", type)
+                console.log("type: ", typeof (type))*/
 
         const time = Number((document.getElementById('recipeTime').value));
-        console.log("time: ", time)
-        console.log("time: ", typeof (time))
+        /*        console.log("time: ", time)
+                console.log("time: ", typeof (time))*/
 
         const category = getCategory();
-        console.log("category: ", category);
-        console.log("category: ", typeof (category));
+        /*        console.log("category: ", category);
+                console.log("category: ", typeof (category));*/
 
         const ingredients = document.getElementById('recipeIngredients');
-        console.log("ingredients: ", ingredients.value)
-        console.log("ingredients: ", typeof (ingredients.value))
+        /*        console.log("ingredients: ", ingredients.value)
+                console.log("ingredients: ", typeof (ingredients.value))*/
 
         const instructions = document.getElementById('recipeInstructions');
-        console.log("instructions: ", instructions.value)
-        console.log("instructions: ", typeof (instructions.value))
+        /*        console.log("instructions: ", instructions.value)
+                console.log("instructions: ", typeof (instructions.value))*/
 
         let imageURL = document.getElementById('recipeImage');
 
@@ -270,8 +270,8 @@ const editRecipe = async (ID) => {
             imageURL = imageURL.value;
         }
 
-        console.log("Constructed Image URL:", imageURL);
-        console.log("Constructed Image URL:", typeof (imageURL));
+        /*        console.log("Constructed Image URL:", imageURL);
+                console.log("Constructed Image URL:", typeof (imageURL));*/
 
         try {
             const response = await fetch(`/editRecipe/${ID}`, {
