@@ -127,6 +127,40 @@ function getActiveButtonType() {
     }
 }
 
+/* Handle category selection logic */
+function changeState(clickedElement) {
+
+    const addCategoryInput = document.getElementById('addCategory');
+    const categoriesDiv = document.getElementById('categories');
+    const flexColumn3Div = document.getElementById('flexColumn3');
+
+    // Check if the addCategory input length is longer than 0
+    if (addCategoryInput.value.length > 0) {
+        // If input has value, add class 'disabled' to categoriesDiv
+        categoriesDiv.classList.add('disabled');
+        flexColumn3Div.classList.add('active');
+
+    } else {
+        // If input is empty, remove class 'disabled' from categoriesDiv
+        categoriesDiv.classList.remove('disabled');
+        flexColumn3Div.classList.remove('active');
+    }
+
+    // Check if the clicked button has 'active' class
+    if (clickedElement.classList.contains('active')) {
+        // If clicked button has 'active' class, remove class 'disabled' from flexColumn3Div
+        flexColumn3Div.classList.remove('disabled');
+        flexColumn3Div.classList.remove('active');
+    } else {
+        // If clicked button doesn't have 'active' class, add class 'disabled' to flexColumn3Div
+        flexColumn3Div.classList.add('disabled');
+        flexColumn3Div.classList.remove('active');
+    }
+
+    // Call changeColor with the clicked element
+    changeColor(clickedElement);
+}
+
 /* Handle adding recipe */
 const addRecipe = async () => {
 
@@ -193,38 +227,75 @@ const addRecipe = async () => {
     }
 };
 
-/* Handle Category selection logic */
-function changeState(clickedElement) {
+const editRecipe = async (ID) => {
 
-    const addCategoryInput = document.getElementById('addCategory');
-    const categoriesDiv = document.getElementById('categories');
-    const flexColumn3Div = document.getElementById('flexColumn3');
+    /* Validate all fields */
+    const error = validateSelection()
+    /*        console.log(error)*/
 
-    // Check if the addCategory input length is longer than 0
-    if (addCategoryInput.value.length > 0) {
-        // If input has value, add class 'disabled' to categoriesDiv
-        categoriesDiv.classList.add('disabled');
-        flexColumn3Div.classList.add('active');
+    if (!error) {
 
-    } else {
-        // If input is empty, remove class 'disabled' from categoriesDiv
-        categoriesDiv.classList.remove('disabled');
-        flexColumn3Div.classList.remove('active');
+        const name = document.getElementById('recipeName');
+        console.log("Name: ", name.value)
+        console.log("Name: ", typeof (name.value))
+
+        const type = getActiveButtonType();
+        console.log("type: ", type)
+        console.log("type: ", typeof (type))
+
+        const time = Number((document.getElementById('recipeTime').value));
+        console.log("time: ", time)
+        console.log("time: ", typeof (time))
+
+        const category = getCategory();
+        console.log("category: ", category);
+        console.log("category: ", typeof (category));
+
+        const ingredients = document.getElementById('recipeIngredients');
+        console.log("ingredients: ", ingredients.value)
+        console.log("ingredients: ", typeof (ingredients.value))
+
+        const instructions = document.getElementById('recipeInstructions');
+        console.log("instructions: ", instructions.value)
+        console.log("instructions: ", typeof (instructions.value))
+
+        let imageURL = document.getElementById('recipeImage');
+
+        if (imageURL.value.includes('view')) {
+            console.log("Constructing link")
+            imageURL = imageURL.value.replace(/\s/g, '');
+            const imageId = extractImageId(imageURL);
+            imageURL = constructImageUrl(imageId);
+        } else {
+            imageURL = imageURL.value;
+        }
+
+        console.log("Constructed Image URL:", imageURL);
+        console.log("Constructed Image URL:", typeof (imageURL));
+
+        try {
+            const response = await fetch(`/editRecipe/${ID}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    Name: name.value,
+                    Type: type,
+                    Time: time,
+                    Category: category,
+                    Ingredients: ingredients.value,
+                    Instructions: instructions.value,
+                    ImageURL: imageURL,
+                }),
+            });
+
+        } catch (error) {
+            console.error('Error updating recipe:', error.message);
+        }
+
+        navigateToRecipe(ID)
+
     }
 
-    // Check if the clicked button has 'active' class
-    if (clickedElement.classList.contains('active')) {
-        // If clicked button has 'active' class, remove class 'disabled' from flexColumn3Div
-        flexColumn3Div.classList.remove('disabled');
-        flexColumn3Div.classList.remove('active');
-    } else {
-        // If clicked button doesn't have 'active' class, add class 'disabled' to flexColumn3Div
-        flexColumn3Div.classList.add('disabled');
-        flexColumn3Div.classList.remove('active');
-    }
-
-    // Call changeColor with the clicked element
-    changeColor(clickedElement);
 }
-
-

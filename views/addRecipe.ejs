@@ -20,38 +20,50 @@
     <header>
         <button class="bordering hoverRed font fontWeight" onclick="navigateToIndex()"><img
                     src="../assets/backColored.png" width="50%"></button>
-        <h1 class="font" style="text-align: center; font-size: 48px; color: #e33778; width: 85%">UUS RETSEPT</h1>
+        <% if (isEditing) { %>
+            <h1 class="font" style="text-align: center; font-size: 48px; color: #e33778; width: 85%">MUUDA RETSEPTI</h1>
+        <% } else { %>
+            <h1 class="font" style="text-align: center; font-size: 48px; color: #e33778; width: 85%">UUS RETSEPT</h1>
+        <% } %>
     </header>
 
     <!-- Recipe Name -->
     <section class="recipeFlex">
-        <h1 class="font labelName">Retsepti nimi:</h1>
+        <h1 class="font labelName text">Retsepti nimi:</h1>
         <input id="recipeName"
                class="font hoverBlack"
                style="width: 42%" maxlength="50"
                placeholder="Pasta carbonara"
-               rows="1">
+               rows="1"
+               value="<%= isEditing ? recipe.Name : '' %>">
     </section>
 
     <!-- Recipe type -->
+    :
     <section class="recipeFlex" id="type">
         <h1 class="font labelName">Retsepti tüüp:</h1>
-        <button class="bordering hoverBlack font fontWeight" id="soolane" onclick="changeColor(this)">SOOLANE</button>
-        <button class="bordering hoverBlack font fontWeight" id="magus" onclick="changeColor(this)"
-                style="margin-left: 50px;">MAGUS
+        <button class="bordering hoverBlack font fontWeight
+                    <%= isEditing && recipe.Type === 'SOOLANE' ? 'active' : '' %>"
+                id="soolane" onclick="changeColor(this)">SOOLANE
+        </button>
+        <button class="bordering hoverBlack font fontWeight
+                    <%= isEditing && recipe.Type === 'MAGUS' ? 'active' : '' %>"
+                id="magus" onclick="changeColor(this)">MAGUS
         </button>
     </section>
+
 
     <!-- Recipe preparing time -->
     <section class="recipeFlex">
         <h1 class="font labelName">Tegemise aeg (min):</h1>
         <input type="number"
                id="recipeTime"
-               class="font hoverBlack"
+               class="font hoverBlack text"
                style="width: 8%"
                name="numberInput" min="0"
                max="999" step="1"
-               placeholder="120">
+               placeholder="120"
+               value="<%= isEditing ? recipe.Time : '' %>">
     </section>
 
     <!-- Recipe Category -->
@@ -64,7 +76,8 @@
             <div id="categories" class="bordering">
 
                 <% uniqueCategories.forEach(category => { %>
-                    <button class="filter hoverBlack font fontWeight" onclick="changeState(this)"
+                    <button class="filter hoverBlack font fontWeight <%= isEditing && category.Category === recipe.Category ? 'active' : '' %>"
+                            onclick="changeState(this)"
                             value="<%= category.Category %>">
                         <%= category.Category %>
                     </button>
@@ -76,12 +89,15 @@
             <div class="flexColumn2">
 
                 <h1 class="font" style="margin: 10px 0; font-size: 18px">VÕI</h1>
-                <div id="flexColumn3">
+                <div id="flexColumn3"
+                <% if (isEditing) { %> class="disabled"
+                        <% } %>
+                >
                     <h2 class="font labelName" style="font-size: 24px">Lisa uus kategooria:</h2>
                     <input type="text" id="addCategory"
                            maxlength="50"
                            style="width: 40%"
-                           class="font hoverBlack uppercase"
+                           class="font hoverBlack uppercase text"
                            oninput="changeState(null)"
                            placeholder="KOOGID">
                 </div>
@@ -94,25 +110,28 @@
 
     <!-- Recipe Ingredients -->
     <section class="recipeFlex">
+
         <h1 class="font labelName">Retsepti koostisosad:</h1>
         <textarea id="recipeIngredients"
                   maxlength="500"
-                  class="font hoverBlack"
+                  class="font hoverBlack text"
                   placeholder="1 spl oliiviõli, 225g peekonit, 1-2 küüslauguküünt, 3-4 muna, 100g riivjuustu, 450g spagette, sool, pipar"
-                  class="font"
-                  rows="2"></textarea>
+                  rows="2"><%= isEditing ? recipe.Ingredients : '' %></textarea>
+
     </section>
 
     <!-- Recipe Instructions -->
     <section class="recipeFlex">
+
         <h1 class="font labelName">Retsepti juhend:</h1>
         <textarea id="recipeInstructions"
                   maxlength="1000"
-                  class="font hoverBlack"
+                  class="font hoverBlack text"
                   placeholder="Sega 3-4 munakollast koos 100 g riivjuustuga. Kurna keedetud pasta, lisa see pannile peekoni ja küüslauguga ning sega kiiresti munaseguga.
 
 Maitsesta soola ja värskelt jahvatatud musta pipraga. Serveeri kohe koos rohkelt riivitud juustuga. Nüüd saad nautida maitsvat pasta carbonarat!"
-                  rows="10"></textarea>
+                  rows="10"><%= isEditing ? recipe.Instructions : '' %></textarea>
+
     </section>
 
     <!-- Recipe Picture -->
@@ -121,17 +140,21 @@ Maitsesta soola ja värskelt jahvatatud musta pipraga. Serveeri kohe koos rohkel
         <input type="text"
                maxlength="500"
                style="width: 60%;"
-               class="font hoverBlack"
+               class="font hoverBlack text"
                id="recipeImage"
-               style="display: none"
                placeholder="https://drive.google.com/file/d/1PmXCCX-fE1CkpUw6fENh-tTUiLvUPk9E/view?usp=sharing"
                oninput="changeState(null)"
-        >
+               value="<%= isEditing ? recipe.ImageURL : '' %>">
     </section>
 
-    <!-- Submit category -->
+    <!-- Submit receipe -->
     <div style="display: flex; justify-content: center; margin-top: 50px">
-        <button class="bordering hoverRed font fontWeight addRecipe" onclick="addRecipe()">Lisa</button>
+        <% if (isEditing) { %>
+            <button class="bordering hoverRed font fontWeight addRecipe" onclick="editRecipe(<%= recipe.ID %>)">Muuda
+            </button>
+        <% } else { %>
+            <button class="bordering hoverRed font fontWeight addRecipe" onclick="addRecipe()">Lisa</button>
+        <% } %>
     </div>
 
 </section>

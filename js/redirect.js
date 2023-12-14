@@ -11,8 +11,8 @@ function navigateToRecipe(recipeId) {
     window.location.href = `http://localhost:5501/recipe/${recipeId}`;
 }
 
-function navigateToEdit (ID) {
-
+function navigateToEdit(ID) {
+    window.location.href = `/editRecipe/${ID}`;
 }
 
 async function deleteNavigateToIndex(ID) {

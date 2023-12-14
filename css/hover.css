@@ -19,3 +19,7 @@
     border-color: black;
     color: black;
 }
+
+.text{
+    cursor: text !important;
+}

@@ -49,6 +49,8 @@ app.get('/addRecipe', async (req, res) => {
 
     try {
 
+        const isEditing = false;
+
         const uniqueCategories = await Recipe.findAll({
             attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('Category')), 'Category']],
             raw: true,
@@ -61,7 +63,7 @@ app.get('/addRecipe', async (req, res) => {
                 return res.status(500).json({error: 'Server error'});
             }
 
-            data = ejs.render(data, {uniqueCategories});
+            data = ejs.render(data, {uniqueCategories, isEditing});
 
             res.send(data);
         });
@@ -116,16 +118,26 @@ app.get('/recipe/:id', async (req, res) => {
     }
 });
 
-/* Edit recipe */
-app.get('/editRecipe:id', async (req, res) => {
+/* Serve edit recipe page */
+app.get('/editRecipe/:id', async (req, res) => {
     const indexPath = './views/addRecipe.ejs';
 
     try {
-
         const uniqueCategories = await Recipe.findAll({
             attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('Category')), 'Category']],
             raw: true,
         });
+
+        const recipeId = req.params.id;
+        const recipe = await Recipe.findByPk(recipeId);
+
+        if (!recipe) {
+            return res.status(404).json({error: 'Recipe not found'});
+        }
+
+        // Set isEditing to true and pass recipe values to the template
+        const isEditing = true;
+        const templateData = {uniqueCategories, isEditing, recipe};
 
         // Read and modify the 'addRecipe.ejs' file
         fs.readFile(indexPath, 'utf8', (err, data) => {
@@ -134,13 +146,51 @@ app.get('/editRecipe:id', async (req, res) => {
                 return res.status(500).json({error: 'Server error'});
             }
 
-            data = ejs.render(data, {uniqueCategories});
+            data = ejs.render(data, templateData);
 
             res.send(data);
         });
     } catch (error) {
         console.error('Error fetching data:', error);
         res.status(500).json({error: 'Error fetching data'});
+    }
+});
+
+// Endpoint for editing a recipe by ID
+app.put('/editRecipe/:id', async (req, res) => {
+    const recipeId = req.params.id;
+    const {
+        Name,
+        Type,
+        Time,
+        Category,
+        Ingredients,
+        Instructions,
+        ImageURL,
+    } = req.body;
+
+    try {
+        const recipe = await Recipe.findByPk(recipeId);
+
+        if (!recipe) {
+            return res.status(404).send('Recipe not found');
+        }
+
+        // Update the recipe with the new values
+        await recipe.update({
+            Name,
+            Type,
+            Time,
+            Category,
+            Ingredients,
+            Instructions,
+            ImageURL,
+        });
+
+        res.status(200).send('Recipe updated successfully');
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
     }
 });
 
@@ -285,11 +335,11 @@ app.delete('/deleteRecipe/:id', async (req, res) => {
             res.status(204).send();
         } else {
             // Recipe with the specified ID not found
-            res.status(404).json({ error: 'Recipe not found' });
+            res.status(404).json({error: 'Recipe not found'});
         }
     } catch (error) {
         console.error('Error deleting recipe:', error);
-        res.status(500).json({ error: 'Error deleting recipe' });
+        res.status(500).json({error: 'Error deleting recipe'});
     }
 });
 
