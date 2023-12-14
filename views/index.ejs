@@ -53,7 +53,7 @@
 
             <!-- Display all unique categories -->
             <% uniqueCategories.forEach(category => { %>
-                <button class="filter hoverBlack font fontWeight" onclick="changeColor(this)" value="<%= category %>">
+                <button class="filter hoverBlack font fontWeight" onclick="categoryUpdate(this)" value="<%= category %>">
                     <%= category %>
                 </button>
             <% }); %>
@@ -63,17 +63,20 @@
         <button id="addRecipe" class="bordering hoverRed font fontWeight" onclick="navigateToAddRecipe()">LISA RETSEPT</button>
 
         <!-- Recipe type -->
-        <select name="Tüüp" id="type" class="bordering hoverBlack font fontWeight">
-            <option value="tuup">TÜÜP</option>
-            <option value="soolane">SOOLANE</option>
-            <option value="magus">MAGUS</option>
+        <select name="Tüüp"
+                id="type"
+                class="bordering hoverBlack font fontWeight"
+                onchange="categoryUpdate()">
+            <option value="TÜÜP">TÜÜP</option>
+            <option value="SOOLANE">SOOLANE</option>
+            <option value="MAGUS">MAGUS</option>
         </select>
 
 
     </section>
 
     <!-- The count of all recipes -->
-    <p id="recipeCount" class="font">You have <strong>26</strong> recipes</p>
+    <p id="recipeCount" class="font">Sinul on <strong><%= recipes.length %></strong> retsepti</p>
 
     <!-- Displayed recipes -->
     <section id="recipes">
@@ -91,6 +94,7 @@
 
 <script src="../js/changeColor.js"></script>
 <script src="../js/redirect.js"></script>
+<script src="../js/index.js"></script>
 
 </body>
 

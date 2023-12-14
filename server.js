@@ -83,78 +83,104 @@ app.get('/recipe/:id', async (req, res) => {
         const recipe = await Recipe.findByPk(recipeId);
 
         if (!recipe) {
-            return res.status(404).json({ error: 'Recipe not found' });
+            return res.status(404).json({error: 'Recipe not found'});
         }
 
         // Read and modify the 'recipe.ejs' file
         fs.readFile(indexPath, 'utf8', (err, data) => {
             if (err) {
                 console.error('Error reading recipe.ejs:', err);
-                return res.status(500).json({ error: 'Server error' });
+                return res.status(500).json({error: 'Server error'});
             }
 
-            data = ejs.render(data, { recipe });
+            data = ejs.render(data, {recipe});
 
             res.send(data);
         });
     } catch (error) {
         console.error('Error fetching data:', error);
-        res.status(500).json({ error: 'Error fetching data' });
+        res.status(500).json({error: 'Error fetching data'});
     }
 });
 
-
 // Handle category selection
-app.get('/Category:category', async (req, res) => {
+app.get('/category', async (req, res) => {
+    const indexPath = './views/index.ejs';
 
     try {
-        // Fetch AI data from the '/AIData' endpoint
-        const aiResponse = await fetch('http://localhost:5501/AIData');
-        const aiData = await aiResponse.json();
+        let recipes;
 
-        // Check if any categories are selected
-        const selectedCategories = req.params.category || '';
-        const selectedCategoriesArray = selectedCategories.split(',');
+        const {type, category} = req.query;
 
-        let filteredData = aiData;
-
-        // Only filter AI data based on selected categories if categories are selected
-        if (selectedCategoriesArray.length > 0 && selectedCategoriesArray[0].trim() !== ':') {
-
-            // Filter AI data based on selected categories
-            filteredData = aiData.filter(tool =>
-                tool.Category.split(',').some(category => selectedCategories.includes(category.trim()))
-            );
+        // Check if both category and type are not provided
+        if (!category && !type) {
+            return res.send('No parameters.');
         }
 
-        // Use EJS to render the HTML
-        const renderedHtml = ejs.render(`
-                ${filteredData.map(tool => `
-                    <div class="relatedBox hoverable" id="${tool.ToolID}">
-                        <div class="imgBox">
-                            <img src="../assets/toolsIMG/${tool.ToolName}.png" alt="${tool.ToolName}">
-                        </div>
-                        <div class="definitionBox">
-                            <h4>${tool.ToolName}</h4>
-                            <p>${tool.Description.substring(0, 195)} . . .</p>
-                        </div>
-                        <div class="categoriesBox">
-                            ${tool.Category.split(',').map(category => `
-                                <div class="category">${category.trim()}</div>
-                            `).join('')}
-                        </div>
+        // Check if type is TÜÜP
+        if (type === 'TÜÜP') {
+            // If category is null, send all recipes
+            if (category === "null") {
+                recipes = await Recipe.findAll();
+            } else {
+                // If category is not null, send recipes with that category
+                recipes = await Recipe.findAll({
+                    where: {
+                        Category: category,
+                    },
+                });
+            }
+        } else {
+            // If category is null, filter by type
+            if (category === "null") {
+                console.log("NO CATEGORY")
+                recipes = await Recipe.findAll({
+                    where: {
+                        Type: type,
+                    },
+                });
+            } else {
+                // If category is not null, filter by both category and type
+                recipes = await Recipe.findAll({
+                    where: {
+                        Category: category,
+                        Type: type,
+                    },
+                });
+            }
+        }
+
+        let renderedHtml;
+
+        // Read and modify the 'index.ejs' file
+        fs.readFile(indexPath, 'utf8', (err, data) => {
+            if (err) {
+                console.error('Error reading index.ejs:', err);
+                return res.status(500).json({error: 'Server error'});
+            }
+
+            renderedHtml = ejs.render(`
+                ${recipes.map(recipe => `
+                    <div class="recipe hoverBlack" id="${recipe.id}" onclick="navigateToRecipe(${recipe.id})">
+                        <h2 class="font">${recipe.Name}</h2>
+                        <img src="${recipe.ImageURL}" alt="${recipe.Name}">
                     </div>
                 `).join('')}
-        `, {
-            aiData: filteredData,
+            `, {
+                recipes,
+            });
+
+            if (recipes.length === 0) {
+                renderedHtml = "<h4 class='font'>Retsepti ei leitud</h4>";
+            }
+
+            res.setHeader('Content-Type', 'text/html');
+            res.send(renderedHtml);
         });
 
-        // Set the response content type to HTML
-        res.setHeader('Content-Type', 'text/html');
-        res.send(renderedHtml);
     } catch (error) {
-        console.error('Error fetching AI data:', error);
-        res.status(500).json({error: 'Error fetching AI data'});
+        console.error('Error fetching data:', error);
+        res.status(500).json({error: 'Error fetching data'});
     }
 });
 

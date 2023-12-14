@@ -9,6 +9,26 @@ body {
     background-color: #dbd9de;
 }
 
+::-webkit-scrollbar {
+    width: 2vw;
+}
+
+::-webkit-scrollbar-track {
+    border-radius: 2vw;
+}
+
+::-webkit-scrollbar-button {
+    width: 2vw;
+    height: 20vh;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #727272;
+    border-radius: 2vw;
+    border: 5px solid transparent;
+    background-clip: content-box;
+}
+
 .font {
     font-family: Bahnschrift;
 }
@@ -112,6 +132,7 @@ body {
 }
 
 .filter {
+    font-size: 16px;
     height: 40px;
     color: #727272;
     padding: 0 20px;
