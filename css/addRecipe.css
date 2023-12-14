@@ -16,6 +16,10 @@ header button{
     text-transform: uppercase;
 }
 
+#magus{
+    margin-left: 50px;
+}
+
 #flexColumn {
     width: 70%;
     display: flex;
