@@ -2,6 +2,7 @@ const express = require('express');
 const fs = require('fs');
 const ejs = require('ejs');
 const Sequelize = require('sequelize');
+const { Op } = require('sequelize');
 const path = require('path')
 const {sequelize, Recipe} = require('./models');
 const app = express();
@@ -252,7 +253,7 @@ app.get('/category', async (req, res) => {
 
             renderedHtml = ejs.render(`
                 ${recipes.map(recipe => `
-                    <div class="recipe hoverBlack" id="${recipe.id}" onclick="navigateToRecipe(${recipe.id})">
+                    <div class="recipe hoverBlack" id="${recipe.ID}" onclick="navigateToRecipe(${recipe.ID})">
                         <h2 class="font">${recipe.Name}</h2>
                         <img src="${recipe.ImageURL}" alt="${recipe.Name}">
                     </div>
@@ -280,9 +281,25 @@ app.get('/search', async (req, res) => {
     const indexPath = './views/index.ejs';
 
     try {
+        const userInput = req.query.input;
+        console.log("userInput: ", userInput)
 
-        const {type, category} = req.query;
-
+        const recipes = await Recipe.findAll({
+            where: {
+                [Op.or]: [
+                    {
+                        Name: {
+                            [Op.like]: `%${userInput}%`,
+                        },
+                    },
+                    {
+                        Ingredients: {
+                            [Op.like]: `%${userInput}%`,
+                        },
+                    },
+                ],
+            },
+        });
 
         let renderedHtml;
 
@@ -295,7 +312,7 @@ app.get('/search', async (req, res) => {
 
             renderedHtml = ejs.render(`
                 ${recipes.map(recipe => `
-                    <div class="recipe hoverBlack" id="${recipe.id}" onclick="navigateToRecipe(${recipe.id})">
+                    <div class="recipe hoverBlack" id="${recipe.ID}" onclick="navigateToRecipe(${recipe.ID})">
                         <h2 class="font">${recipe.Name}</h2>
                         <img src="${recipe.ImageURL}" alt="${recipe.Name}">
                     </div>
@@ -342,69 +359,3 @@ app.delete('/deleteRecipe/:id', async (req, res) => {
         res.status(500).json({error: 'Error deleting recipe'});
     }
 });
-
-// Handle search
-app.get('/search42', (req, res) => {
-    try {
-        const userInput = req.query.input; // Assuming the user input is passed as a query parameter named 'input'
-
-        // Check if the user input is at least 3 characters
-        if (userInput.length < 3) {
-            return res.send('Please enter at least 3 characters for search.');
-        }
-
-        // Fetch data from the 'tools' table based on the user input
-        const query = `
-            SELECT \`ToolID\`, \`ToolName\`, \`Description\`, \`Category\`
-            FROM \`tools\`
-            WHERE LOWER(\`ToolName\`) LIKE ?
-               OR LOWER(\`Category\`) LIKE ?
-        `;
-        const values = [`%${userInput.toLowerCase()}%`, `%${userInput.toLowerCase()}%`];
-
-        db.query(query, values, (err, matchedTools) => {
-            if (err) {
-                console.error('Error fetching data:', err);
-                return res.status(500).json({error: 'Error fetching data'});
-            }
-
-            if (matchedTools.length > 0) {
-                // Use EJS to render the HTML with the matched tools
-                const renderedHtml = ejs.render(`
-            ${matchedTools.map(tool => `
-              <div class="relatedBox hoverable" id="${tool.ToolID}">
-                <div class="imgBox">
-                  <img src="../assets/toolsIMG/${tool.ToolName}.png" alt="${tool.ToolName}">
-                </div>
-                <div class="definitionBox">
-                  <h4>${tool.ToolName}</h4>
-                  <p>${tool.Description.substring(0, 195)} . . .</p>
-                </div>
-                <div class="categoriesBox">
-                  ${tool.Category.split(',').map(category => `
-                    <div class="category">${category.trim()}</div>
-                  `).join('')}
-                </div>
-              </div>
-            `).join('')}
-        `, {
-                    aiData: matchedTools,
-                });
-
-                // Set the response content type to HTML
-                res.setHeader('Content-Type', 'text/html');
-                res.send(renderedHtml);
-            } else {
-                res.send('No matches found.');
-            }
-        });
-    } catch (error) {
-        console.error('Error fetching data:', error);
-
-        // Log the error details
-        console.error(error);
-
-        res.status(500).json({error: 'Error fetching data'});
-    }
-});
-
