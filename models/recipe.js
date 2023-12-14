@@ -2,6 +2,12 @@ const {DataTypes} = require('sequelize');
 
 module.exports = (sequelize) => {
     const Recipe = sequelize.define('Recipe', {
+        ID: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true,
+            allowNull: false,
+        },
         Name: {
             type: DataTypes.STRING(50),
             allowNull: false,

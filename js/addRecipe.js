@@ -128,7 +128,7 @@ function getActiveButtonType() {
 }
 
 /* Handle adding recipe */
-const addRecipe = () => {
+const addRecipe = async () => {
 
     /* Validate all fields */
     const error = validateSelection()
@@ -138,33 +138,60 @@ const addRecipe = () => {
     if (!error) {
 
         const name = document.getElementById('recipeName');
-        /*    console.log("Name: ", name.value)*/
+        /*        console.log("Name: ", name.value)
+                console.log("Name: ", typeof(name.value))*/
 
         const type = getActiveButtonType();
-        /*        console.log("type: ", type)*/
+        /*        console.log("type: ", type)
+                console.log("type: ", typeof(type))*/
 
-        const time = document.getElementById('recipeTime');
-        /*    console.log("time: ",time.value)*/
+        const time = Number((document.getElementById('recipeTime').value));
+        /*        console.log("time: ", time)
+                console.log("time: ", typeof (time))*/
 
         const category = getCategory();
-        /*        console.log("category: ",category);*/
+        /*        console.log("category: ", category);
+                console.log("category: ", typeof(category));*/
 
         const ingredients = document.getElementById('recipeIngredients');
-        /*    console.log("ingredients: ",ingredients.value)*/
+        /*        console.log("ingredients: ", ingredients.value)
+                console.log("ingredients: ", typeof(ingredients.value))*/
 
         const instructions = document.getElementById('recipeInstructions');
-        /*    console.log("instructions: ",instructions.value)*/
+        /*        console.log("instructions: ", instructions.value)
+                console.log("instructions: ", typeof(instructions.value))*/
 
         let imageURL = document.getElementById('recipeImage');
         imageURL = imageURL.value.replace(/\s/g, '');
         const imageId = extractImageId(imageURL);
+        imageURL = constructImageUrl(imageId);
+        /*        console.log("Constructed Image URL:", imageURL);
+                console.log("Constructed Image URL:", typeof(imageURL));*/
 
-        if (imageId) {
-            imageURL = constructImageUrl(imageId);
-            /*        console.log("Constructed Image URL:", imageUrl);*/
+        try {
+            const response = fetch('/addRecipe', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    Name: name.value,
+                    Type: type,
+                    Time: time,
+                    Category: category,
+                    Ingredients: ingredients.value,
+                    Instructions: instructions.value,
+                    ImageURL: imageURL,
+                }),
+            });
+
+        } catch (error) {
+            console.error('Error creating recipe:', error.message);
         }
+
+        navigateToIndex()
     }
-}
+};
 
 /* Handle Category selection logic */
 function changeState(clickedElement) {

@@ -18,7 +18,8 @@
 <section id="pageContent">
 
     <header>
-        <button class="bordering hoverRed font fontWeight" onclick="navigateToIndex()"><img src="../assets/backColored.png" width="50%"></button>
+        <button class="bordering hoverRed font fontWeight" onclick="navigateToIndex()"><img
+                    src="../assets/backColored.png" width="50%"></button>
         <h1 class="font" style="text-align: center; font-size: 48px; color: #e33778; width: 85%">UUS RETSEPT</h1>
     </header>
 
@@ -63,7 +64,8 @@
             <div id="categories" class="bordering">
 
                 <% uniqueCategories.forEach(category => { %>
-                    <button class="filter hoverBlack font fontWeight" onclick="changeState(this)" value="<%= category.Category %>">
+                    <button class="filter hoverBlack font fontWeight" onclick="changeState(this)"
+                            value="<%= category.Category %>">
                         <%= category.Category %>
                     </button>
                 <% }); %>

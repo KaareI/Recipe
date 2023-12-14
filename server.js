@@ -43,7 +43,7 @@ app.get('/', async (req, res) => {
     }
 });
 
-/* Add recipe */
+/* Render add recipe */
 app.get('/addRecipe', async (req, res) => {
     const indexPath = './views/addRecipe.ejs';
 
@@ -53,8 +53,6 @@ app.get('/addRecipe', async (req, res) => {
             attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('Category')), 'Category']],
             raw: true,
         });
-
-        console.log(uniqueCategories);
 
         // Read and modify the 'addRecipe.ejs' file
         fs.readFile(indexPath, 'utf8', (err, data) => {
@@ -70,6 +68,21 @@ app.get('/addRecipe', async (req, res) => {
     } catch (error) {
         console.error('Error fetching data:', error);
         res.status(500).json({error: 'Error fetching data'});
+    }
+});
+
+/* Add recipe */
+app.post('/addRecipe', async (req, res) => {
+    try {
+
+        const newRecipe = await Recipe.create(req.body);
+        res.status(201).json(newRecipe);
+
+    } catch (error) {
+
+        console.error('Error creating recipe:', error);
+        res.status(500).json({error: 'Error creating recipe'});
+
     }
 });
 
@@ -94,6 +107,34 @@ app.get('/recipe/:id', async (req, res) => {
             }
 
             data = ejs.render(data, {recipe});
+
+            res.send(data);
+        });
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).json({error: 'Error fetching data'});
+    }
+});
+
+/* Edit recipe */
+app.get('/editRecipe:id', async (req, res) => {
+    const indexPath = './views/addRecipe.ejs';
+
+    try {
+
+        const uniqueCategories = await Recipe.findAll({
+            attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('Category')), 'Category']],
+            raw: true,
+        });
+
+        // Read and modify the 'addRecipe.ejs' file
+        fs.readFile(indexPath, 'utf8', (err, data) => {
+            if (err) {
+                console.error('Error reading addRecipe.ejs:', err);
+                return res.status(500).json({error: 'Server error'});
+            }
+
+            data = ejs.render(data, {uniqueCategories});
 
             res.send(data);
         });
@@ -185,7 +226,75 @@ app.get('/category', async (req, res) => {
 });
 
 // Handle search
-app.get('/search', (req, res) => {
+app.get('/search', async (req, res) => {
+    const indexPath = './views/index.ejs';
+
+    try {
+
+        const {type, category} = req.query;
+
+
+        let renderedHtml;
+
+        // Read and modify the 'index.ejs' file
+        fs.readFile(indexPath, 'utf8', (err, data) => {
+            if (err) {
+                console.error('Error reading index.ejs:', err);
+                return res.status(500).json({error: 'Server error'});
+            }
+
+            renderedHtml = ejs.render(`
+                ${recipes.map(recipe => `
+                    <div class="recipe hoverBlack" id="${recipe.id}" onclick="navigateToRecipe(${recipe.id})">
+                        <h2 class="font">${recipe.Name}</h2>
+                        <img src="${recipe.ImageURL}" alt="${recipe.Name}">
+                    </div>
+                `).join('')}
+            `, {
+                recipes,
+            });
+
+            if (recipes.length === 0) {
+                renderedHtml = "<h4 class='font'>Retsepti ei leitud</h4>";
+            }
+
+            res.setHeader('Content-Type', 'text/html');
+            res.send(renderedHtml);
+        });
+
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).json({error: 'Error fetching data'});
+    }
+});
+
+// Endpoint for deleting a recipe by ID
+app.delete('/deleteRecipe/:id', async (req, res) => {
+    const recipeId = req.params.id;
+
+    try {
+        // Use Sequelize to find and delete the recipe by ID
+        const deletedRecipeCount = await Recipe.destroy({
+            where: {
+                ID: recipeId,
+            },
+        });
+
+        if (deletedRecipeCount > 0) {
+            // Recipe deleted successfully
+            res.status(204).send();
+        } else {
+            // Recipe with the specified ID not found
+            res.status(404).json({ error: 'Recipe not found' });
+        }
+    } catch (error) {
+        console.error('Error deleting recipe:', error);
+        res.status(500).json({ error: 'Error deleting recipe' });
+    }
+});
+
+// Handle search
+app.get('/search42', (req, res) => {
     try {
         const userInput = req.query.input; // Assuming the user input is passed as a query parameter named 'input'
 
