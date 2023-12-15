@@ -39,7 +39,6 @@
     </section>
 
     <!-- Recipe type -->
-    :
     <section class="recipeFlex" id="type">
         <h1 class="font labelName">Retsepti tüüp:</h1>
         <button class="bordering hoverBlack font fontWeight
@@ -51,7 +50,6 @@
                 id="magus" onclick="changeColor(this)">MAGUS
         </button>
     </section>
-
 
     <!-- Recipe preparing time -->
     <section class="recipeFlex">
@@ -74,15 +72,17 @@
 
             <!-- Choosable categories -->
             <div id="categories" class="bordering">
-
-                <% uniqueCategories.forEach(category => { %>
-                    <button class="filter hoverBlack font fontWeight <%= isEditing && category.Category === recipe.Category ? 'active' : '' %>"
-                            onclick="changeState(this)"
-                            value="<%= category.Category %>">
-                        <%= category.Category %>
-                    </button>
-                <% }); %>
-
+                <% if (uniqueCategories.length === 0) { %>
+                    <h3 class="font">Kategooriad puuduvad</h3>
+                <% } else { %>
+                    <% uniqueCategories.forEach(category => { %>
+                        <button class="filter hoverBlack font fontWeight <%= isEditing && category.Category === recipe.Category ? 'active' : '' %>"
+                                onclick="changeState(this)"
+                                value="<%= category.Category %>">
+                            <%= category.Category %>
+                        </button>
+                    <% }); %>
+                <% } %>
             </div>
 
             <!-- Add new category -->
@@ -93,7 +93,9 @@
                 <% if (isEditing) { %> class="disabled"
                         <% } %>
                 >
-                    <h2 class="font labelName" style="font-size: 24px">Lisa uus kategooria:</h2>
+                    <h2 class="font labelName" style="font-size: 24px">
+                        <%= isEditing ? 'Muuda kategooria nime:' : 'Lisa uus kategooria:' %>
+                    </h2>
                     <input type="text" id="addCategory"
                            maxlength="50"
                            style="width: 40%"
