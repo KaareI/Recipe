@@ -28,7 +28,7 @@
                     <img src="../assets/search.png" alt="IKOON">
                 </div>
                 <!-- Search input field -->
-                <input type="text" class="search-input font" placeholder="Otsi retsepte">
+                <input type="text" class="search-input font" placeholder="Otsi retsepte või koostisosi">
 
             </div>
             <h1 class="font">Minu Retseptid</h1>
@@ -48,15 +48,20 @@
         <!-- Categories -->
         <div id="categories" class="bordering">
 
-            <!-- Find unique categories -->
-            <% const uniqueCategories = [...new Set(recipes.map(recipe => recipe.Category))]; %>
+            <% if (recipes.length <= 0) { %>
+                <h3 class="font">Kategooriad puuduvad</h3>
+            <% } else { %>
+                <!-- Find unique categories -->
+                <% const uniqueCategories = [...new Set(recipes.map(recipe => recipe.Category))]; %>
 
-            <!-- Display all unique categories -->
-            <% uniqueCategories.forEach(category => { %>
-                <button class="filter hoverBlack font fontWeight" onclick="categoryUpdate(this)" value="<%= category %>">
-                    <%= category %>
-                </button>
-            <% }); %>
+                <!-- Display all unique categories -->
+                <% uniqueCategories.forEach(category => { %>
+                    <button class="filter hoverBlack font fontWeight" onclick="categoryUpdate(this)" value="<%= category %>">
+                        <%= category %>
+                    </button>
+                <% }); %>
+            <% } %>
+
         </div>
 
         <!-- Add new recipe -->
@@ -71,7 +76,6 @@
             <option value="SOOLANE">SOOLANE</option>
             <option value="MAGUS">MAGUS</option>
         </select>
-
 
     </section>
 
