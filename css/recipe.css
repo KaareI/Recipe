@@ -140,4 +140,22 @@ li {
     line-height: 1.7;
 }
 
+@media screen and (min-width: 1280px) {
+
+    .half1{
+        width: 42%;
+        padding-right: 25px;
+    }
+
+    .half2{
+        width: 58%;
+        padding-left: 25px;
+    }
+
+    .boxPadding{
+        padding: 25px;
+    }
+
+}
+
 
