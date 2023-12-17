@@ -95,3 +95,15 @@ h1{
     color: #ff0505 !important;
     border-color: #ff0505 !important;
 }
+
+#recipeTime{
+    width: 8%;
+}
+
+@media screen and (min-width: 1280px) {
+
+    #recipeTime{
+        width: 10%;
+    }
+
+}
