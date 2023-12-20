@@ -1,0 +1,381 @@
+openapi: 3.0.0
+info:
+  title: Recipe Website
+  version: 1.0.0
+  description: |-
+      1. **Install Git and Node.js:**
+         - Download and install Git from [Git official website](https://git-scm.com/download/win).
+         - Download and install Node.js from [Node.js official website](https://nodejs.org/en).
+
+      2. **Clone and Set Up the Project:**
+         ```bash
+         cd Documents
+         git clone https://github.com/your-username/recipe-website.git
+         cd recipe-website
+         npm install
+         ```
+
+      3. **MySQL Setup:**
+         - Configure MySQL Server in `config/config.json`.
+         - Create a database: `CREATE DATABASE recipes;`.
+         - Import MySQL Dump File: `source /path_to_dump_file/recipeDB.sql`.
+
+      4. **Start the Server:**
+         ```bash
+         cd Documents
+         node recipe-website/server.js
+         ```
+
+      5. **Open in Chrome:**
+         Open Chrome and go to http://localhost:5501/.
+paths:
+  /:
+    get:
+      tags:
+        - API Clarification
+      summary: Retrieve Homepage with Recipes
+      description: |
+        This endpoint serves the homepage with a list of recipes.
+      responses:
+        '200':
+          description: OK
+          content:
+            text/html:
+              schema:
+                type: string
+                format: html
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Server error
+
+    post:
+      tags:
+        - API Clarification
+      summary: Add a New Recipe
+      description: |
+        This endpoint adds a new recipe to the database.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Name:
+                  type: string
+                  minLength: 1
+                  maxLength: 50
+                Type:
+                  type: string
+                  minLength: 1
+                  maxLength: 50
+                Time:
+                  type: integer
+                Category:
+                  type: string
+                  minLength: 1
+                  maxLength: 50
+                Ingredients:
+                  type: string
+                  maxLength: 500
+                Instructions:
+                  type: string
+                  maxLength: 1000
+                ImageURL:
+                  type: string
+                  maxLength: 500
+              required:
+                - Name
+                - Type
+                - Time
+                - Category
+                - Ingredients
+                - Instructions
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Error creating recipe
+  /recipe/{id}:
+    get:
+      tags:
+        - API Clarification
+      summary: Retrieve Recipe Page by ID
+      description: |
+        This endpoint serves the recipe page for a specific recipe ID.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: The ID of the recipe to retrieve.
+      responses:
+        '200':
+          description: OK
+          content:
+            text/html:
+              schema:
+                type: string
+                format: html
+        '404':
+          description: Recipe Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Recipe not found
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Server error
+  /editRecipe/{id}:
+    get:
+      tags:
+        - API Clarification
+      summary: Serve Edit Recipe Page
+      description: |
+        This endpoint serves the edit recipe page for a specific recipe ID.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: The ID of the recipe to edit.
+      responses:
+        '200':
+          description: OK
+          content:
+            text/html:
+              schema:
+                type: string
+                format: html
+        '404':
+          description: Recipe Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Recipe not found
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Server error
+
+    put:
+      tags:
+        - API Clarification
+      summary: Update Recipe by ID
+      description: |
+        This endpoint updates a recipe by its ID.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: The ID of the recipe to update.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Name:
+                  type: string
+                  minLength: 1
+                  maxLength: 50
+                Type:
+                  type: string
+                  minLength: 1
+                  maxLength: 50
+                Time:
+                  type: integer
+                Category:
+                  type: string
+                  minLength: 1
+                  maxLength: 50
+                Ingredients:
+                  type: string
+                  maxLength: 500
+                Instructions:
+                  type: string
+                  maxLength: 1000
+                ImageURL:
+                  type: string
+                  maxLength: 500
+              required:
+                - Name
+                - Type
+                - Time
+                - Category
+                - Ingredients
+                - Instructions
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Recipe updated successfully
+        '404':
+          description: Recipe Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Recipe not found
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Internal Server Error
+  /category:
+    get:
+      tags:
+        - API Clarification
+      summary: Handle Category Selection
+      description: |
+        This endpoint handles category selection and returns recipes based on the provided parameters.
+      parameters:
+        - in: query
+          name: type
+          schema:
+            type: string
+          description: The type of the recipe.
+        - in: query
+          name: category
+          schema:
+            type: string
+          description: The category of the recipe.
+      responses:
+        '200':
+          description: OK
+          content:
+            text/html:
+              schema:
+                type: string
+                format: html
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Server error
+
+  /search:
+    get:
+      tags:
+        - API Clarification
+      summary: Handle Recipe Search
+      description: |
+        This endpoint handles recipe search based on user input and returns matching recipes.
+      parameters:
+        - in: query
+          name: input
+          schema:
+            type: string
+          description: The user input for searching recipes.
+      responses:
+        '200':
+          description: OK
+          content:
+            text/html:
+              schema:
+                type: string
+                format: html
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Server error
+  /deleteRecipe/{id}:
+    delete:
+      tags:
+        - API Clarification
+      summary: Delete Recipe by ID
+      description: |
+        This endpoint deletes a recipe by its ID.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: The ID of the recipe to delete.
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Recipe Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Recipe not found
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Error deleting recipe
