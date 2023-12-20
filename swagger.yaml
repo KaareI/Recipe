@@ -102,6 +102,8 @@ paths:
           description: Created
           content:
             application/json:
+              schema:
+                type: object
         '500':
           description: Server Error
           content:
