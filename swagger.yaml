@@ -10,7 +10,7 @@ info:
       2. **Clone and Set Up the Project:**
          ```bash
          cd Documents
-         git clone https://github.com/your-username/recipe-website.git
+         git clone https://github.com/KaareI/Recipe.git
          cd recipe-website
          npm install
          ```
@@ -102,6 +102,8 @@ paths:
           description: Created
           content:
             application/json:
+              schema:
+                type: object
         '500':
           description: Server Error
           content:
