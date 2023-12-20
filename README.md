@@ -1,4 +1,4 @@
-[About Project](https://editor.swagger.io?url=https://raw.githubusercontent.com/KaareI/Recipe/main/swagger.yaml)
+[About Project](https://editor.swagger.io?url=https://raw.githubusercontent.com/KaareI/Recipe/main/swagger.yaml){:target="_blank"}
 
 ![Recipe](https://github.com/KaareI/Recipe/assets/114857354/f5b70560-4433-4f67-9fa8-eba9e87acd8f)
 ![Recipe (2)](https://github.com/KaareI/Recipe/assets/114857354/d4be3fca-a737-4a50-ba3a-b832a895b9c6)
