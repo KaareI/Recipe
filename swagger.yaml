@@ -11,7 +11,6 @@ info:
          ```bash
          cd Documents
          git clone https://github.com/your-username/recipe-website.git
-         cd recipe-website
          npm install
          ```
 
@@ -23,7 +22,7 @@ info:
       4. **Start the Server:**
          ```bash
          cd Documents
-         node recipe-website/server.js
+         node server.js
          ```
 
       5. **Open in Chrome:**
