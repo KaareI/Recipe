@@ -183,7 +183,7 @@ const addRecipe = async () => {
                         console.log("Image format:", typeof(imageFormat));*/
 
         try {
-            const response = fetch('/addRecipe', {
+            const response = await fetch('/addRecipe', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -199,11 +199,18 @@ const addRecipe = async () => {
                 }),
             });
 
+            // Check if the response indicates success (e.g., HTTP status code 200)
+            if (response.ok) {
+                navigateToIndex();
+            } else {
+                console.error('Error adding recipe. Status:', response.status);
+                // Handle error as needed
+            }
         } catch (error) {
             console.error('Error creating recipe:', error.message);
+            // Handle error as needed
         }
 
-        navigateToIndex()
     }
 };
 
