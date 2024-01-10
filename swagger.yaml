@@ -9,7 +9,6 @@ info:
 
       2. **Clone and Set Up the Project:**
          ```bash
-         cd Documents
          git clone https://github.com/KaareI/Recipe.git
          npm install
          ```
@@ -19,11 +18,11 @@ info:
          - Create a database: `CREATE DATABASE recipes;`.
          - Import MySQL Dump File: `source /path_to_dump_file/recipeDB.sql`.
 
-      4. **Start the Server:**
+      4. **Start the Server in project root folder:**
          ```bash
-         cd Documents
          node server.js
          ```
+  
 
       5. **Open in Chrome:**
          Open Chrome and go to http://localhost:5501/.
@@ -96,6 +95,7 @@ paths:
                 - Category
                 - Ingredients
                 - Instructions
+                - ImageFormat
       responses:
         '201':
           description: Created
@@ -247,6 +247,7 @@ paths:
                 - Category
                 - Ingredients
                 - Instructions
+                - ImageFormat
       responses:
         '200':
           description: OK
