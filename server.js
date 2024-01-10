@@ -243,8 +243,6 @@ app.get('/category', async (req, res) => {
             }
         }
 
-        console.log(recipes)
-
         let renderedHtml;
 
         // Read and modify the 'index.ejs' file
