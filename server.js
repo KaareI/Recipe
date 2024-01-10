@@ -243,6 +243,8 @@ app.get('/category', async (req, res) => {
             }
         }
 
+        console.log(recipes)
+
         let renderedHtml;
 
         // Read and modify the 'index.ejs' file
@@ -256,7 +258,7 @@ app.get('/category', async (req, res) => {
                 ${recipes.map(recipe => `
                     <div class="recipe hoverBlack" id="${recipe.ID}" onclick="navigateToRecipe(${recipe.ID})">
                         <h2 class="font">${recipe.Name}</h2>
-                        <img src="../assets/recipeImages/<%=recipe.Name%>.<%= recipe.ImageFormat %>" alt="<%= recipe.Name %>">
+                        <img src="../assets/recipeImages/${recipe.Name}.${recipe.ImageFormat}" alt="${recipe.Name}">
                     </div>
                 `).join('')}
             `, {
@@ -315,7 +317,7 @@ app.get('/search', async (req, res) => {
                 ${recipes.map(recipe => `
                     <div class="recipe hoverBlack" id="${recipe.ID}" onclick="navigateToRecipe(${recipe.ID})">
                         <h2 class="font">${recipe.Name}</h2>
-                        <img src="../assets/recipeImages/<%=recipe.Name%>.<%= recipe.ImageFormat %>" alt="<%= recipe.Name %>">
+                        <img src="../assets/recipeImages/${recipe.Name}.${recipe.ImageFormat}" alt="${recipe.Name}">
                     </div>
                 `).join('')}
             `, {
