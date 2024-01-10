@@ -214,6 +214,7 @@ const addRecipe = async () => {
     }
 };
 
+/* Handle editing recipe */
 const editRecipe = async (ID) => {
 
     /* Validate all fields */
