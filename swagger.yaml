@@ -86,9 +86,9 @@ paths:
                 Instructions:
                   type: string
                   maxLength: 1000
-                ImageURL:
+                ImageFormat:
                   type: string
-                  maxLength: 500
+                  maxLength: 50
               required:
                 - Name
                 - Type
@@ -237,9 +237,9 @@ paths:
                 Instructions:
                   type: string
                   maxLength: 1000
-                ImageURL:
+                ImageFormat:
                   type: string
-                  maxLength: 500
+                  maxLength: 50
               required:
                 - Name
                 - Type

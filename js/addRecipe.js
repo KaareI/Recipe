@@ -63,9 +63,8 @@ function validateSelection() {
     const instructions = document.getElementById('recipeInstructions');
     missingInformation.push(validateInput(instructions));
 
-    /* Validate recipe's image url */
-    const imageURL = document.getElementById('recipeImage');
-    missingInformation.push(validateInput(imageURL));
+    const imageFormat = document.getElementById('recipeImage');
+    missingInformation.push(validateInput(imageFormat));
 
     /*    console.log(missingInformation)*/
     // Check if there is any 'true' in the array (errors)
@@ -75,24 +74,6 @@ function validateSelection() {
         return false
     }
 
-}
-
-/* Extract the img id from the drive link */
-function extractImageId(driveLink) {
-    const regex = /\/d\/(.*?)\/view/;
-    const match = driveLink.match(regex);
-
-    if (match && match[1]) {
-        return match[1];
-    } else {
-        console.error("Invalid Google Drive link");
-        return null;
-    }
-}
-
-/* Construct the new URL */
-function constructImageUrl(imageId) {
-    return `https://drive.google.com/uc?id=${imageId}`;
 }
 
 /* Get selected or made category */
@@ -195,12 +176,11 @@ const addRecipe = async () => {
         /*        console.log("instructions: ", instructions.value)
                 console.log("instructions: ", typeof(instructions.value))*/
 
-        let imageURL = document.getElementById('recipeImage');
-        imageURL = imageURL.value.replace(/\s/g, '');
-        const imageId = extractImageId(imageURL);
-        imageURL = constructImageUrl(imageId);
-        /*        console.log("Constructed Image URL:", imageURL);
-                console.log("Constructed Image URL:", typeof(imageURL));*/
+        let imageFormat = document.getElementById('recipeImage');
+        imageFormat = imageFormat.value.replace(/\s/g, "");
+        imageFormat.toLowerCase()
+        /*        console.log("Image format:", imageFormat);
+                        console.log("Image format:", typeof(imageFormat));*/
 
         try {
             const response = fetch('/addRecipe', {
@@ -215,7 +195,7 @@ const addRecipe = async () => {
                     Category: category,
                     Ingredients: ingredients.value,
                     Instructions: instructions.value,
-                    ImageURL: imageURL,
+                    ImageFormat: imageFormat,
                 }),
             });
 
@@ -259,19 +239,11 @@ const editRecipe = async (ID) => {
         /*        console.log("instructions: ", instructions.value)
                 console.log("instructions: ", typeof (instructions.value))*/
 
-        let imageURL = document.getElementById('recipeImage');
-
-        if (imageURL.value.includes('view')) {
-            console.log("Constructing link")
-            imageURL = imageURL.value.replace(/\s/g, '');
-            const imageId = extractImageId(imageURL);
-            imageURL = constructImageUrl(imageId);
-        } else {
-            imageURL = imageURL.value;
-        }
-
-        /*        console.log("Constructed Image URL:", imageURL);
-                console.log("Constructed Image URL:", typeof (imageURL));*/
+        let imageFormat = document.getElementById('recipeImage');
+        imageFormat = imageFormat.value.replace(/\s/g, "");
+        imageFormat.toLowerCase()
+/*        console.log("Image format:", imageFormat);
+        console.log("Image format:", typeof(imageFormat));*/
 
         try {
             const response = await fetch(`/editRecipe/${ID}`, {
@@ -286,7 +258,7 @@ const editRecipe = async (ID) => {
                     Category: category,
                     Ingredients: ingredients.value,
                     Instructions: instructions.value,
-                    ImageURL: imageURL,
+                    ImageFormat: imageFormat,
                 }),
             });
 
