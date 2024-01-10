@@ -10,7 +10,7 @@ info:
       2. **Clone and Set Up the Project:**
          ```bash
          cd Documents
-         git clone https://github.com/your-username/recipe-website.git
+         git clone https://github.com/KaareI/Recipe.git
          npm install
          ```
 
