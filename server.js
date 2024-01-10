@@ -167,7 +167,7 @@ app.put('/editRecipe/:id', async (req, res) => {
         Category,
         Ingredients,
         Instructions,
-        ImageURL,
+        ImageFormat
     } = req.body;
 
     try {
@@ -185,7 +185,7 @@ app.put('/editRecipe/:id', async (req, res) => {
             Category,
             Ingredients,
             Instructions,
-            ImageURL,
+            ImageFormat
         });
 
         res.status(200).send('Recipe updated successfully');
@@ -255,7 +255,7 @@ app.get('/category', async (req, res) => {
                 ${recipes.map(recipe => `
                     <div class="recipe hoverBlack" id="${recipe.ID}" onclick="navigateToRecipe(${recipe.ID})">
                         <h2 class="font">${recipe.Name}</h2>
-                        <img src="${recipe.ImageURL}" alt="${recipe.Name}">
+                        <img src="../assets/recipeImages/<%=recipe.Name%>.<%= recipe.ImageFormat %>" alt="<%= recipe.Name %>">
                     </div>
                 `).join('')}
             `, {
@@ -314,7 +314,7 @@ app.get('/search', async (req, res) => {
                 ${recipes.map(recipe => `
                     <div class="recipe hoverBlack" id="${recipe.ID}" onclick="navigateToRecipe(${recipe.ID})">
                         <h2 class="font">${recipe.Name}</h2>
-                        <img src="${recipe.ImageURL}" alt="${recipe.Name}">
+                        <img src="../assets/recipeImages/<%=recipe.Name%>.<%= recipe.ImageFormat %>" alt="<%= recipe.Name %>">
                     </div>
                 `).join('')}
             `, {
